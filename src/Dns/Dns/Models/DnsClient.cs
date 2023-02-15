@@ -98,8 +98,6 @@ namespace Microsoft.Azure.Commands.Dns.Models
                     Location = DnsResourceLocation,
                     Tags = TagsConversionHelper.CreateTagDictionary(zone.Tags, validate: true),
                     ZoneType = zone.ZoneType,
-                    RegistrationVirtualNetworks = zone.RegistrationVirtualNetworkIds.ToVirtualNetworkResources(),
-                    ResolutionVirtualNetworks = zone.ResolutionVirtualNetworkIds.ToVirtualNetworkResources(),
                 },
                 ifMatch: overwrite ? null : zone.Etag,
                 ifNoneMatch: null);
@@ -508,8 +506,6 @@ namespace Microsoft.Azure.Commands.Dns.Models
                 NumberOfRecordSets = zone.NumberOfRecordSets,
                 MaxNumberOfRecordSets = zone.MaxNumberOfRecordSets,
                 ZoneType = zone.ZoneType,
-                RegistrationVirtualNetworkIds = zone.RegistrationVirtualNetworks.ToVirtualNetworkIds().ToList(),
-                ResolutionVirtualNetworkIds = zone.ResolutionVirtualNetworks.ToVirtualNetworkIds().ToList(),
             };
         }
 

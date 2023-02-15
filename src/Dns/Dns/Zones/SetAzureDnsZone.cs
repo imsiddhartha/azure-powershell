@@ -89,33 +89,6 @@ namespace Microsoft.Azure.Commands.Dns
                 zoneToUpdate = this.DnsClient.GetDnsZone(this.Name, this.ResourceGroupName);
                 zoneToUpdate.Etag = "*";
                 zoneToUpdate.Tags = this.Tag;
-
-                if (this.ParameterSetName == FieldsIdsParameterSetName)
-                {
-                    // Change mutable fields if value is passed
-                    if (this.RegistrationVirtualNetworkId != null)
-                    {
-                        zoneToUpdate.RegistrationVirtualNetworkIds = this.RegistrationVirtualNetworkId;
-                    }
-
-                    if (this.ResolutionVirtualNetworkId != null)
-                    {
-                        zoneToUpdate.ResolutionVirtualNetworkIds = this.ResolutionVirtualNetworkId;
-                    }
-                }
-                else
-                {
-                    // Change mutable fields if value is passed
-                    if (this.RegistrationVirtualNetwork != null)
-                    {
-                        zoneToUpdate.RegistrationVirtualNetworkIds = this.RegistrationVirtualNetwork.Select(virtualNetwork => virtualNetwork.Id).ToList();
-                    }
-
-                    if (this.ResolutionVirtualNetwork != null)
-                    {
-                        zoneToUpdate.ResolutionVirtualNetworkIds = this.ResolutionVirtualNetwork.Select(virtualNetwork => virtualNetwork.Id).ToList();
-                    }
-                }
             }
             else if (this.ParameterSetName == ObjectParameterSetName)
             {
