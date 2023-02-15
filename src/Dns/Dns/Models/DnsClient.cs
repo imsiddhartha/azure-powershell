@@ -67,9 +67,7 @@ namespace Microsoft.Azure.Commands.Dns.Models
             string name,
             string resourceGroupName,
             Hashtable tags,
-            ZoneType zoneType,
-            IList<string> registrationVirtualNetworks,
-            IList<string> resolutionVirtualNetworks)
+            ZoneType zoneType)
         {
             var response = this.DnsManagementClient.Zones.CreateOrUpdate(
                 resourceGroupName,
@@ -78,9 +76,7 @@ namespace Microsoft.Azure.Commands.Dns.Models
                 {
                     Location = DnsResourceLocation,
                     Tags = TagsConversionHelper.CreateTagDictionary(tags, validate: true),
-                    ZoneType = zoneType,
-                    RegistrationVirtualNetworks = registrationVirtualNetworks.ToVirtualNetworkResources(),
-                    ResolutionVirtualNetworks = resolutionVirtualNetworks.ToVirtualNetworkResources(),
+                    ZoneType = zoneType
                 },
                 ifMatch: null,
                 ifNoneMatch: "*");
@@ -97,9 +93,7 @@ namespace Microsoft.Azure.Commands.Dns.Models
                 {
                     Location = DnsResourceLocation,
                     Tags = TagsConversionHelper.CreateTagDictionary(zone.Tags, validate: true),
-                    ZoneType = zone.ZoneType,
-                    RegistrationVirtualNetworks = zone.RegistrationVirtualNetworkIds.ToVirtualNetworkResources(),
-                    ResolutionVirtualNetworks = zone.ResolutionVirtualNetworkIds.ToVirtualNetworkResources(),
+                    ZoneType = zone.ZoneType
                 },
                 ifMatch: overwrite ? null : zone.Etag,
                 ifNoneMatch: null);
@@ -507,9 +501,7 @@ namespace Microsoft.Azure.Commands.Dns.Models
                 NameServers = zone.NameServers != null ? zone.NameServers.ToList() : new List<string>(),
                 NumberOfRecordSets = zone.NumberOfRecordSets,
                 MaxNumberOfRecordSets = zone.MaxNumberOfRecordSets,
-                ZoneType = zone.ZoneType,
-                RegistrationVirtualNetworkIds = zone.RegistrationVirtualNetworks.ToVirtualNetworkIds().ToList(),
-                ResolutionVirtualNetworkIds = zone.ResolutionVirtualNetworks.ToVirtualNetworkIds().ToList(),
+                ZoneType = zone.ZoneType
             };
         }
 

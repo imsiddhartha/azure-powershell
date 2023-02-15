@@ -65,14 +65,6 @@ namespace Microsoft.Azure.Commands.Dns
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents resource tags.")]
         public Hashtable Tag { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = IdsParameterSetName, HelpMessage = "The list of virtual network ids that will register virtual machine hostnames records in this DNS zone, only available for private zones.")]
-        [ValidateNotNull]
-        public List<string> RegistrationVirtualNetworkId { get; set; }
-
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = IdsParameterSetName, HelpMessage = "The list of virtual network ids able to resolve records in this DNS zone, only available for private zones.")]
-        [ValidateNotNull]
-        public List<string> ResolutionVirtualNetworkId { get; set; }
-
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = ObjectsParameterSetName, HelpMessage = "The list of virtual networks that will register virtual machine hostnames records in this DNS zone, only available for private zones.")]
         [ValidateNotNull]
         public List<IResourceReference> RegistrationVirtualNetwork { get; set; }
@@ -96,21 +88,11 @@ namespace Microsoft.Azure.Commands.Dns
                 {
                     ZoneType zoneType = this.ZoneType != null ? this.ZoneType.Value : Management.Dns.Models.ZoneType.Public;
 
-                    List<string> registrationVirtualNetworkIds = this.RegistrationVirtualNetworkId;
-                    List<string> resolutionVirtualNetworkIds = this.ResolutionVirtualNetworkId;
-                    if (this.ParameterSetName == ObjectsParameterSetName)
-                    {
-                        registrationVirtualNetworkIds = this.RegistrationVirtualNetwork?.Select(virtualNetwork => virtualNetwork.Id).ToList();
-                        resolutionVirtualNetworkIds = this.ResolutionVirtualNetwork?.Select(virtualNetwork => virtualNetwork.Id).ToList();
-                    }
-
                     DnsZone result = this.DnsClient.CreateDnsZone(
                         this.Name,
                         this.ResourceGroupName,
                         this.Tag,
-                        zoneType,
-                        registrationVirtualNetworkIds,
-                        resolutionVirtualNetworkIds);
+                        zoneType);
                     this.WriteVerbose(ProjectResources.Success);
                     this.WriteVerbose(zoneType == Management.Dns.Models.ZoneType.Private
                         ? string.Format(ProjectResources.Success_NewPrivateZone, this.Name, this.ResourceGroupName)
