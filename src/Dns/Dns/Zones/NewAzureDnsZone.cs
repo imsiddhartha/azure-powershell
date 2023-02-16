@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.Dns.Models;
 using Microsoft.Azure.Management.Internal.Network.Common;
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
+using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 using ProjectResources = Microsoft.Azure.Commands.Dns.Properties.Resources;
 
 namespace Microsoft.Azure.Commands.Dns
@@ -28,6 +30,8 @@ namespace Microsoft.Azure.Commands.Dns
     /// <summary>
     /// Creates a new zone.
     /// </summary>
+    /// 
+    [CmdletOutputBreakingChange(typeof(DnsZone), deprecateByVersion: "1.1.3", changeInEfectByDate: "05/25/2023", DeprecatedOutputProperties = new String[] { "RegistrationVirtualNetworkIds", "ResolutionVirtualNetworkIds" })]
     [Cmdlet("New", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "DnsZone", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium, DefaultParameterSetName = IdsParameterSetName), OutputType(typeof(DnsZone))]
     public class NewAzureDnsZone : DnsBaseCmdlet
     {

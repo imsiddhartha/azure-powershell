@@ -14,6 +14,8 @@
 
 using Microsoft.Azure.Commands.Dns.Models;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
+using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
+using System;
 using System.Management.Automation;
 using ProjectResources = Microsoft.Azure.Commands.Dns.Properties.Resources;
 
@@ -22,6 +24,8 @@ namespace Microsoft.Azure.Commands.Dns
     /// <summary>
     /// Gets one or more existing zones.
     /// </summary>
+    /// 
+    [CmdletOutputBreakingChange(typeof(DnsZone), deprecateByVersion: "1.1.3", changeInEfectByDate: "05/25/2023", DeprecatedOutputProperties = new String[] { "RegistrationVirtualNetworkIds", "ResolutionVirtualNetworkIds" })]
     [Cmdlet("Get", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "DnsZone", DefaultParameterSetName = "Default"), OutputType(typeof(DnsZone))]
     public class GetAzureDnsZone : DnsBaseCmdlet
     {
